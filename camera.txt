@@ -1,0 +1,14 @@
+Code for taking pictures 5 times :  
+import picamera
+from time import sleep 
+camera = picamera.PiCamera()
+#set resolution
+camera.resolution = (1024, 768)
+camera.brightness = 60
+camera.start_preview()
+#add text on image
+camera.annotate_text = 'Hi Pi User'
+for i in range(5):
+    sleep(5)
+    camera.capture('/home/pi/Desktop/image%s.jpg' % i)
+camera.stop_preview()

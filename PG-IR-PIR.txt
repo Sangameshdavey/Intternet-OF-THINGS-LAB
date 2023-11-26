@@ -1,0 +1,48 @@
+﻿int IRSensor=2;
+int MotionSensor=27;
+const int LED=4;
+const int LED1=12;
+int LEDstate = LOW;
+int Pinstatecurrent=LOW;
+int Pinstateprevious=LOW;
+void setup() {
+// put your setup code here, to run once:
+Serial.begin(9600);
+pinMode(LED,OUTPUT);
+pinMode(LED1,OUTPUT);
+pinMode(IRSensor,INPUT);
+pinMode(MotionSensor,INPUT);
+}
+
+
+void loop() {
+// put your main code here, to run repeatedly:
+Pinstateprevious=Pinstatecurrent;
+Pinstatecurrent=digitalRead(MotionSensor);
+if(Pinstatecurrent==HIGH && Pinstateprevious==LOW)
+{
+Serial.println("Motion Detected");
+digitalWrite(LED,HIGH);
+delay(3000);
+int statussensor=digitalRead(IRSensor);
+
+
+if(statussensor==1)
+{
+digitalWrite(LED1,LOW);
+Serial.println("Person detected but height not matched");
+}
+else
+{
+digitalWrite(LED1,HIGH);
+Serial.println("Person detected and height matched");
+delay(3000);
+}
+}
+if(Pinstateprevious==Pinstatecurrent)
+{
+Serial.println("No Motion Detected");
+digitalWrite(LED,LOW);
+digitalWrite(LED1,LOW);
+}
+}

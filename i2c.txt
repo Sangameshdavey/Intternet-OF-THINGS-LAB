@@ -1,0 +1,32 @@
+# Raspberry Pi Master for Arduino Slave
+from smbus import SMBus
+addr = 0x8 # bus address
+bus = SMBus(1)
+numb = 1
+print ("Enter 1 for ON or 0 for OFF")
+while numb == 1:
+ledstate = input(">>>> ")
+if ledstate == "1":
+bus.write_byte(addr, 0x1) # switch it on
+elif ledstate == "0":
+bus.write_byte(addr, 0x0) # switch it off
+else:
+numb = 0
+#Arduino Slave for Raspberry Pi Master
+// Include the Wire library for I2C
+#include <Wire.h>
+const int ledPin = 13;
+void setup() {
+Wire.begin(0x8);
+Wire.onReceive(receiveEvent);
+pinMode(ledPin, OUTPUT);
+digitalWrite(ledPin, LOW);
+}
+// Function that executes whenever data is received from master
+void receiveEvent(int n) {
+while (Wire.available()) { // loop through all but the last
+char c = Wire.read(); // receive byte as a character
+digitalWrite(ledPin, c);
+}}
+void loop() {
+delay(100);}

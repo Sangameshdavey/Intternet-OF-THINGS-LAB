@@ -1,0 +1,91 @@
+// let isCapturing = false;
+// chrome.tabs.create({"new-window.html", active:true});
+// // chrome.browserAction.onClicked.addListener(() => {
+// // //   var popupWindow = window.open(
+// // //     chrome.extension.getURL("new-window.html"),
+// // //     "exampleName",
+// // //     "width=400,height=400"
+// // //   );
+
+// // });
+
+// function capture() {
+//   const button1 = document.getElementById("button1");
+//   if (isCapturing) {
+//     isCapturing = false; // Set capturing to false
+//     chrome.browserAction.setIcon({ path: "icon.png" }); // Set icon back to original
+//     button1.textContent = "Start Capturing"; // Change button text
+//     button1.style.backgroundColor = ""; // Reset button color
+//     chrome.alarms.clearAll();
+//   } else {
+//     isCapturing = true; // Set capturing to true
+//     chrome.browserAction.setIcon({ path: "icon-enabled.png" }); // Set icon to green
+//     button1.textContent = "Stop Capturing"; // Change button text
+//     button1.style.backgroundColor = "red"; // Change button color to green
+//     captureinner();
+//     createalarm();
+//   }
+// }
+
+// function captureinner() {
+//   alert("capture inner called");
+
+//   chrome.tabs.captureVisibleTab((screenshotUrl) => {
+//     chrome.storage.local.set({ cachedImage: screenshotUrl }, function () {
+//       alert("Image saved to local cache.");
+//       alert(screenshotUrl);
+//     });
+//   });
+// }
+
+// function getImage() {
+//   chrome.storage.local.get(["cachedImage"], function (result) {
+//     const cachedImage = result.cachedImage;
+//     const imgElement = document.getElementById("cachedImage");
+//     imgElement.src = cachedImage;
+//   });
+// }
+// document.getElementById("button1").addEventListener("click", function () {
+//   capture();
+// });
+// document.getElementById("button2").addEventListener("click", function () {
+//   getImage();
+// });
+// const name0 = "period";
+// const name1 = "period1";
+// const name2 = "period2";
+// const createalarm = () => {
+//   alert("alarm created");
+//   chrome.alarms.create(name0, { periodInMinutes: 1.0 });
+// };
+// chrome.alarms.onAlarm.addListener(() => {
+//   captureinner();
+// });
+
+// // window.addEventListener("DOMContentLoaded", (event) => {
+// //   const el = document.getElementById("button1");
+// //   if (el) {
+// //     document.getElementById("button1").addEventListener("click", function () {
+// //       alert("button 1 clicked");
+// //       capture();
+// //     });
+// //   }
+// // });
+
+// //alert("capturing");
+// // chrome.browserAction.onClicked.addListener(() => {
+// //   chrome.tabs.captureVisibleTab((screenshotUrl) => {
+// //     chrome.storage.local.set({ cachedImage: screenshotUrl }, function () {
+// //       alert("Image saved to local cache.");
+// //       alert(screenshotUrl);
+// //     });
+// //   });
+// // });
+// // function capture() {
+// //   chrome.tabs.captureVisibleTab((screenshotUrl) => {
+// //     chrome.storage.local.set({ cachedImage: screenshotUrl }, function () {
+// //       alert("Image saved to local cache.");
+// //       alert(screenshotUrl);
+// //     });
+// //   });
+// // }

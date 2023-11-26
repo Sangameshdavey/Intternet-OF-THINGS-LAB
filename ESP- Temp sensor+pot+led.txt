@@ -1,0 +1,47 @@
+﻿int tempPin = 13;
+int sensorPin = 27;    //pot
+int ledPin = 14;      
+int sensorValue = 0;  
+int outputval=0;
+int tempval=0;
+#define PWM1_Ch    0
+
+
+#define PWM1_Res   12
+
+
+#define PWM1_Freq  1000
+#define ADC_VREF_mV 3300
+#define ADC_RESOLUTION 4096
+void setup()
+{
+Serial.begin(9600);
+ledcAttachPin(ledPin, PWM1_Ch);
+ledcSetup(PWM1_Ch, PWM1_Freq, PWM1_Res);
+pinMode(ledPin, OUTPUT);  
+pinMode(tempPin,INPUT);
+}
+void loop()
+{
+tempval=analogRead(tempPin);
+float tempc=(tempval*(ADC_VREF_mV/ADC_RESOLUTION)/10);
+float tempf=tempc*9/5+32;
+Serial.print("temp in degf");
+Serial.println(tempf);
+sensorValue = analogRead(sensorPin);
+outputval=map(sensorValue,0,1023,0,255);
+Serial.print("Analog value from Pot=");
+Serial.println(outputval);
+if(tempf<outputval)
+{
+   ledcWrite(PWM1_Ch,255);
+}
+else if(tempf>outputval)
+{
+  ledcWrite(PWM1_Ch,0);
+}
+else
+{
+  ledcWrite(PWM1_Ch, outputval);
+}
+}

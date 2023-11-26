@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include "freertos/semphr.h"
+SemaphoreHandle_t mySemaphore;
+void setup() {
+  Serial.println("inside setup");
+  Serial.begin(9600);
+  if ( mySemaphore == NULL ) // Check to confirm that the Serial Semaphore has not already been created.
+  {
+    mySemaphore = xSemaphoreCreateBinary(); // Create a binary semaphore
+    if ( (mySemaphore) != NULL )
+    xSemaphoreGive( (mySemaphore) ); // Make the Serial Port available for use, by "Giving" the Semaphore.
+  }
+  xTaskCreate(TaskLed, "Led", 10000, NULL, 1, NULL );
+  xTaskCreate(TaskBlink, "LedBlink", 10000, NULL, 1, NULL );
+  digitalWrite(7,LOW);
+  digitalWrite(8,LOW);
+  }
+void loop() {}
+void TaskLed(void *pvParameters)
+{
+  (void) pvParameters;
+  Serial.println("inside taskled");
+  pinMode(8, OUTPUT);
+  for(;;)
+  {
+    if (xSemaphoreTake(mySemaphore, ( TickType_t ) 10 ) != pdTRUE)
+    {
+      Serial.println("waiting inside taskled for semaphore");
+      digitalWrite(8,LOW);
+    }
+    else
+    {
+      Serial.println("semaphore taken inside taskled");
+      digitalWrite(8,HIGH);
+      delay(5000);
+      xSemaphoreGive(mySemaphore);
+      Serial.println(" semaphore given by taskled");
+      delay(1000);
+    }
+  }
+}
+void TaskBlink(void *pvParameters)
+{
+  (void) pvParameters;
+  Serial.println("inside taskblink");
+  pinMode(7, OUTPUT);
+  for(;;){
+    if (xSemaphoreTake(mySemaphore, ( TickType_t ) 10 ) != pdTRUE)
+    {
+      Serial.println("waiting inside taskblink for semaphore");
+      digitalWrite(7,LOW);
+    }
+    else{
+      Serial.println("semaphore taken inside taskblink");
+      digitalWrite(7,HIGH);
+      delay(5000);
+      xSemaphoreGive(mySemaphore);
+      Serial.println("semaphore given by taskblink");
+      delay(1000);
+    }
+  }
+}

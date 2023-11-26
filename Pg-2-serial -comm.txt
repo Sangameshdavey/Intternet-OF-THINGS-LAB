@@ -1,0 +1,111 @@
+﻿// the setup function runs once when you press reset or power the board
+
+
+
+
+int LED=9;
+                //SELECTING THE DIGITAL PIN 10,11;
+int LED1=10;
+
+
+char in='0';
+                //INITIALISING THE CHARACTER TO "0"
+
+
+void setup() 
+{
+
+
+Serial.begin(9600);
+                 //STARTING THE SERIAL MONITOR
+pinMode(LED, OUTPUT);
+         //SPECIFYING THE 9,10 PINS AS OUTPUT PINS FOR LEDS
+pinMode(LED1, OUTPUT);
+
+
+}
+
+
+
+
+
+
+void loop() 
+{
+ 
+        if(Serial.available()>0)
+         //CHECKING WHETHER THE SERIAL MONITOR IS READY OR NOT
+        {
+  
+        in=Serial.read();                   //GETTING THE INPUT FOR THE CHARACTER "in"
+ 
+        }
+
+
+
+
+         if(in=='a')
+                         //COMPARING "in" WITH "a"
+        {
+                        // IF "in" IS EQUAL TO "a" ,THEN TURN ON THE 1st LED AT 9th PIN
+        digitalWrite(LED,HIGH);
+
+
+        Serial.println("LED 9 IS ON");
+
+
+        delay(3000);
+
+
+        digitalWrite(LED,LOW);
+
+
+        delay(1000);
+
+
+        }
+
+
+
+
+         if(in=='b')                        //COMPARING "in" WITH "b"
+        {                        // IF "in" IS EQUAL TO "b" ,THEN TURN ON THE 1st LED AT 10th PIN
+
+
+        digitalWrite(LED1,HIGH);
+
+
+        Serial.println("LED 10 IS ON");
+
+
+        delay(3000);
+
+
+        digitalWrite(LED1,LOW);
+
+
+        delay(1000);
+ 
+        }
+
+
+
+
+         if(in=='0')
+                         //COMPARING "in" WITH "0"
+        {
+                        // IF "in" IS EQUAL TO "0" ,THEN TURN OFF BOTH THE  LEDS
+
+
+        digitalWrite(LED, LOW);
+
+
+        digitalWrite(LED1, LOW);
+
+
+        Serial.println("BOTH LEDS ARE OFF");
+ 
+        }
+
+
+}

@@ -1,0 +1,58 @@
+﻿//LED control based on Light and Temperature in a room
+
+
+#define LIGHT_SENSOR_PIN 12
+#define LED_PIN 27
+#define RLED 25
+#define TEMP_PIN 26
+#define ADC_VREF_mV    3300.0 // in millivolt
+#define ADC_RESOLUTION 4096.0
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_PIN,OUTPUT);
+  pinMode(LIGHT_SENSOR_PIN,INPUT);
+  pinMode(RLED,OUTPUT);
+  pinMode(TEMP_PIN,INPUT);
+}
+void loop() {
+  int analogValue = analogRead(LIGHT_SENSOR_PIN);
+  int brightness=analogValue/15;
+  Serial.print("Analog Value = ");
+  Serial.print(analogValue);
+  digitalWrite(LED_PIN,HIGH);
+  int adcVal = analogRead(TEMP_PIN);
+  float milliVolt = adcVal * (ADC_VREF_mV / ADC_RESOLUTION);
+  float tempC = milliVolt / 10;
+  float tempF = tempC * 9 / 5 + 32;
+  Serial.print("Temperature: ");
+  Serial.print(tempC);   // print the temperature in °C
+  Serial.print("°C");
+  Serial.print("  ~  "); // separator between °C and °F
+  Serial.print(tempF);   // print the temperature in °F
+  Serial.println("°F");
+  if(tempF<40)
+  {
+    digitalWrite(RLED,HIGH);
+  }
+  else
+  {
+    digitalWrite(RLED,LOW);
+  }
+  if (analogValue < 40) {
+    Serial.println(" => Dark");
+   digitalWrite(LED_PIN,HIGH);
+  } else if (analogValue < 800) {
+    Serial.println(" => Dim");
+     digitalWrite(LED_PIN,HIGH);
+  } else if (analogValue < 2000) {
+    Serial.println(" => Light");
+     digitalWrite(LED_PIN,HIGH);
+  } else if (analogValue < 3200) {
+    Serial.println(" => Bright");
+     digitalWrite(LED_PIN,LOW);
+  } else {
+    Serial.println(" => Very bright");
+    digitalWrite(LED_PIN,LOW);
+  }
+  delay(500);
+}

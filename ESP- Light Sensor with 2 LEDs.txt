@@ -1,0 +1,41 @@
+﻿#define LIGHT 13
+#define LED1 12
+#define LED2 14
+
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LIGHT, INPUT);
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+}
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int val = analogRead(LIGHT);
+  if(val < 40) {
+    Serial.println(val);
+    Serial.println("DARK");
+  }
+  else if(val < 800) {
+    Serial.println(val);
+    Serial.println("DIM");
+  }
+  else if(val < 2000) {
+    Serial.println(val);
+    Serial.println("BRIGHT");
+  }
+  else {
+    Serial.println(val);
+    Serial.println("VERY BRIGHT");
+  }
+  if(val < 800) {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+  }
+  else {
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
+  }
+}

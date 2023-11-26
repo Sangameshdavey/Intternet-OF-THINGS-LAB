@@ -1,0 +1,13 @@
+import RPi.GPIO as GPIO
+import time
+led=2
+IRSensor =4
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(led, GPIO.OUT)
+GPIO.setup(IRSensor , GPIO.IN)
+while True:
+if GPIO.input(IRSensor)==0:
+GPIO.output(led,GPIO.HIGH)
+else:
+GPIO.output(led,GPIO.LOW)
+GPIO.cleanup()

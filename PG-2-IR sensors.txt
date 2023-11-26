@@ -1,0 +1,25 @@
+﻿// the setup function runs once when you press reset or power the board
+# define Ledpin 13
+#define IRpin 14
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(Ledpin, OUTPUT);
+  pinMode(IRpin, INPUT);
+  Serial.begin(9600);
+}
+
+
+// the loop function runs over and over again forever
+void loop() {
+ 
+ bool  IRstatus=digitalRead(IRpin);
+    if(IRstatus==true
+    )
+ { digitalWrite(Ledpin,LOW);
+ Serial.print(IRstatus);}// turn the LED on (HIGH is the voltage level)
+  //delay(5000);        // wait for a second
+  else
+  {digitalWrite(Ledpin,HIGH);  
+  Serial.print(IRstatus);} // turn the LED off by making the voltage LOW
+  //delay(5000);                       // wait for a second
+}
